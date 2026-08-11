@@ -61,15 +61,16 @@ export default function LoginPage() {
         password: values.password,
       });
 
-      const { token, role, message } = response.data;
+      const { token, role } = response.data;
       
       // We don't have full user data from backend just yet except role in token,
       // but we can parse token or store what we have.
       loginStaff({ email: values.email, role }, token);
       
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to login as Staff');
+    } catch (err) {
+      const error = err as any;
+      setError(error.response?.data?.error || 'Failed to login as Staff');
     } finally {
       setIsLoading(false);
     }
@@ -88,8 +89,9 @@ export default function LoginPage() {
       loginClient(party, token);
       
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to login as Client');
+    } catch (err) {
+      const error = err as any;
+      setError(error.response?.data?.error || 'Failed to login as Client');
     } finally {
       setIsLoading(false);
     }
