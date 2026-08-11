@@ -69,8 +69,8 @@ export default function LoginPage() {
       
       router.push('/dashboard');
     } catch (err) {
-      const error = err as any;
-      setError(error.response?.data?.error || 'Failed to login as Staff');
+      // @ts-expect-error - Catch block typing bypass
+      setError(err.response?.data?.error || 'Failed to login as Staff');
     } finally {
       setIsLoading(false);
     }
@@ -90,8 +90,8 @@ export default function LoginPage() {
       
       router.push('/dashboard');
     } catch (err) {
-      const error = err as any;
-      setError(error.response?.data?.error || 'Failed to login as Client');
+      // @ts-expect-error - Catch block typing bypass
+      setError(err.response?.data?.error || 'Failed to login as Client');
     } finally {
       setIsLoading(false);
     }
