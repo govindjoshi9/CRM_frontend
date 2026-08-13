@@ -6,15 +6,16 @@ import { useAuthStore } from '@/store/authStore';
 
 export default function RootPage() {
   const router = useRouter();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, getPortalRoute } = useAuthStore();
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace('/dashboard');
+      const targetPortal = getPortalRoute();
+      router.replace(targetPortal);
     } else {
       router.replace('/login');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, getPortalRoute, router]);
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center">
