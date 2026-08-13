@@ -50,7 +50,7 @@ export const useAuthStore = create<AuthState>()(
         set({ token: null, user: null, status: "idle", error: null });
       },
 
-      updateBranch: async (branchId, _branchName) => {
+      updateBranch: async (branchId) => {
         const { token } = get();
         if (!token) return;
         try {

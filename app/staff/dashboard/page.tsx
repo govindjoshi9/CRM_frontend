@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Package,
@@ -11,7 +11,6 @@ import {
   Clock,
   Activity,
   Plus,
-  Search,
 } from "lucide-react";
 import { AppShell } from "@/components/layout/app-shell";
 import { PageHeader } from "@/components/layout/page-header";
@@ -19,7 +18,6 @@ import { KpiCard } from "@/components/dashboard/kpi-card";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { getModule, type ModuleDef } from "@/lib/modules";
 import { ItemsModule } from "@/components/modules/items-module";
 import { useAuthStore } from "@/store/authStore";

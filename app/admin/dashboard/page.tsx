@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   IndianRupee,
   FileText,
   Users,
   Wallet,
-  Sparkles,
   Activity,
   ChevronRight,
   ShieldCheck,
-  Building2,
   Download,
   AlertCircle,
 } from "lucide-react";

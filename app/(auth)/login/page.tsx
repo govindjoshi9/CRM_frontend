@@ -201,7 +201,7 @@ export default function LoginPage() {
               Secured with AES-256 Encryption
             </div>
             <p className="text-xs text-slate-500">
-              Don't have a workspace?{' '}
+              Don&apos;t have a workspace?{' '}
               <a href="/register" className="text-indigo-500 hover:underline font-semibold">
                 Sign Up
               </a>
