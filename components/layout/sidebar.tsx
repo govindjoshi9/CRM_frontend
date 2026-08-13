@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { useAuthStore } from "@/store/authStore";
 
 interface SidebarProps {
   activeSlug: string;
@@ -27,6 +28,10 @@ interface SidebarProps {
 export function Sidebar({ activeSlug, onNavigate }: SidebarProps) {
   const [query, setQuery] = useState("");
   const [collapsedGroups, setCollapsedGroups] = useState<Set<ModuleGroup>>(new Set());
+  const { user, activeRole } = useAuthStore();
+
+  const isStaff = activeRole === 'staff';
+  const roleName = isStaff ? (user?.role || 'staff') : 'client';
 
   const grouped = useMemo(() => getModulesByGroup(), []);
 
@@ -71,8 +76,8 @@ export function Sidebar({ activeSlug, onNavigate }: SidebarProps) {
           <span className="text-sm font-semibold tracking-tight text-white">
             Zamtrix ERP
           </span>
-          <span className="text-[11px] text-sidebar-foreground/60">
-            Business Suite
+          <span className="text-[11px] uppercase tracking-wider font-semibold text-emerald-400">
+            {roleName} Portal
           </span>
         </div>
       </button>
