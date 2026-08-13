@@ -7,10 +7,8 @@ import {
   Building2,
   Download,
   Receipt,
-  Clock,
   UserCheck,
   LogOut,
-  HelpCircle,
 } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
 import { KpiCard } from "@/components/dashboard/kpi-card";
