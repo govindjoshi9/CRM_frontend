@@ -12,6 +12,9 @@ import {
 import apiClient from '@/lib/axios';
 import { useAuthStore } from '@/store/authStore';
 import { getPortalRoute } from '@/lib/roleUtils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address.' }),
@@ -60,363 +63,155 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-root">
+    <div className="flex min-h-screen bg-slate-50 font-sans">
       {/* Left panel – branding */}
-      <div className="login-panel-left">
-        <div className="login-brand">
-          <div className="login-logo-ring">
-            <Building2 className="login-logo-icon" />
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-50 border-r border-indigo-500/15 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: `
+            radial-gradient(ellipse 60% 50% at 0% 0%, rgba(99,102,241,.1) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 60% at 100% 100%, rgba(139,92,246,.08) 0%, transparent 70%)
+          `
+        }} />
+        
+        <div className="relative z-10">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center mb-6 shadow-[0_8px_32px_rgba(99,102,241,0.3)]">
+            <Building2 className="w-8 h-8 text-white" />
           </div>
-          <h1 className="login-brand-title">Enterprise CRM</h1>
-          <p className="login-brand-sub">
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Enterprise CRM</h1>
+          <p className="text-sm text-slate-600 leading-relaxed">
             Unified business management for modern enterprises
           </p>
         </div>
 
-        <ul className="login-features">
+        <ul className="flex flex-col gap-4 relative z-10">
           {[
-            { label: 'Role-based access control' },
-            { label: 'Real-time analytics & reporting' },
-            { label: 'Multi-branch operations' },
-            { label: 'Inventory & billing automation' },
-          ].map((f) => (
-            <li key={f.label} className="login-feature-item">
-              <span className="login-feature-dot" />
-              {f.label}
+            'Role-based access control',
+            'Real-time analytics & reporting',
+            'Multi-branch operations',
+            'Inventory & billing automation',
+          ].map((label) => (
+            <li key={label} className="flex items-center gap-3 text-sm font-medium text-slate-600">
+              <span className="w-2 h-2 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 shrink-0 shadow-[0_0_8px_rgba(99,102,241,0.4)]" />
+              {label}
             </li>
           ))}
         </ul>
 
-        <p className="login-version">v1.0 · Enterprise Edition</p>
+        <p className="text-xs text-slate-400 relative z-10 font-medium">v1.0 · Enterprise Edition</p>
       </div>
 
       {/* Right panel – form */}
-      <div className="login-panel-right">
-        <div className="login-form-card">
+      <div className="flex-1 flex items-center justify-center p-8 bg-slate-50">
+        <div className="w-full max-w-[420px] bg-white border border-slate-200 rounded-3xl p-10 shadow-xl shadow-slate-200/50">
           {/* Header */}
-          <div className="login-form-header">
-            <div className="login-shield-badge">
-              <Shield className="login-shield-icon" />
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600/10 to-violet-600/10 border border-indigo-500/15 mb-5">
+              <Shield className="w-6 h-6 text-indigo-500" />
             </div>
-            <h2 className="login-form-title">Sign In</h2>
-            <p className="login-form-desc">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Sign In</h2>
+            <p className="text-sm text-slate-500 leading-relaxed">
               Access your workspace — the system will route you to your portal automatically.
             </p>
           </div>
 
           {/* Error */}
           {error && (
-            <div className="login-error" role="alert">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              <span>{error}</span>
-            </div>
+            <Alert variant="destructive" className="mb-6 bg-red-50 border-red-200 text-red-600 animate-in fade-in slide-in-from-top-2">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
+            </Alert>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="login-form" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
             {/* Email */}
-            <div className="login-field">
-              <label htmlFor="login-email" className="login-label">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="login-email" className="text-sm font-semibold text-slate-700">
                 Email Address
               </label>
-              <div className="login-input-wrap">
-                <Mail className="login-input-icon" />
-                <input
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <Input
                   id="login-email"
                   type="email"
                   autoComplete="username"
                   placeholder="you@company.com"
-                  className={`login-input ${errors.email ? 'login-input--error' : ''}`}
+                  className={`pl-10 h-12 bg-slate-50/50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 text-sm shadow-none ${errors.email ? 'border-red-500 focus-visible:ring-red-500/20' : ''}`}
                   {...register('email')}
                 />
               </div>
               {errors.email && (
-                <p className="login-field-error">{errors.email.message}</p>
+                <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
               )}
             </div>
 
             {/* Password */}
-            <div className="login-field">
-              <label htmlFor="login-password" className="login-label">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="login-password" className="text-sm font-semibold text-slate-700">
                 Password
               </label>
-              <div className="login-input-wrap">
-                <Lock className="login-input-icon" />
-                <input
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <Input
                   id="login-password"
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   placeholder="Enter your password"
-                  className={`login-input login-input--pwd ${errors.password ? 'login-input--error' : ''}`}
+                  className={`pl-10 pr-10 h-12 bg-slate-50/50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 text-sm shadow-none ${errors.password ? 'border-red-500 focus-visible:ring-red-500/20' : ''}`}
                   {...register('password')}
                 />
                 <button
                   type="button"
-                  className="login-eye-btn"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                   onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               {errors.password && (
-                <p className="login-field-error">{errors.password.message}</p>
+                <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
               )}
             </div>
 
             {/* Submit */}
-            <button
+            <Button
               type="submit"
-              className="login-submit-btn"
+              className="w-full h-12 mt-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 shadow-[0_4px_14px_rgba(99,102,241,0.3)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.4)] transition-all text-sm font-bold text-white"
               disabled={isLoading}
-              id="login-submit"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Authenticating…
                 </>
               ) : (
                 <>
                   Sign In
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </>
               )}
-            </button>
+            </Button>
           </form>
 
           {/* Footer */}
-          <div className="login-footer">
-            <div className="login-footer-badge">
-              <Shield className="h-3.5 w-3.5" />
+          <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-500">
+              <Shield className="w-3.5 h-3.5" />
               Secured with AES-256 Encryption
             </div>
-            <p className="login-footer-note">
+            <p className="text-xs text-slate-500">
               Don't have a workspace?{' '}
-              <a href="/register" className="text-primary hover:underline font-semibold" style={{ color: '#818cf8' }}>
+              <a href="/register" className="text-indigo-500 hover:underline font-semibold">
                 Sign Up
               </a>
             </p>
-            <p className="login-footer-note">
+            <p className="text-xs text-slate-400 text-center">
               Your role is automatically detected upon sign-in.
             </p>
           </div>
         </div>
       </div>
-
-      {/* Inline styles */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-        .login-root {
-          font-family: 'Inter', sans-serif;
-          display: flex;
-          min-height: 100vh;
-          background: #f8fafc;
-        }
-
-        /* ── Left panel ── */
-        .login-panel-left {
-          display: none;
-          flex-direction: column;
-          justify-content: space-between;
-          padding: 56px 52px;
-          background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 60%, #f8fafc 100%);
-          border-right: 1px solid rgba(99,102,241,.15);
-          position: relative;
-          overflow: hidden;
-        }
-        .login-panel-left::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(ellipse 60% 50% at 0% 0%, rgba(99,102,241,.1) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 60% at 100% 100%, rgba(139,92,246,.08) 0%, transparent 70%);
-          pointer-events: none;
-        }
-        @media (min-width: 1024px) { .login-panel-left { display: flex; flex: 1; } }
-
-        .login-brand { position: relative; z-index: 1; }
-        .login-logo-ring {
-          width: 60px; height: 60px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          display: flex; align-items: center; justify-content: center;
-          margin-bottom: 24px;
-          box-shadow: 0 8px 32px rgba(99,102,241,.3);
-        }
-        .login-logo-icon { width: 30px; height: 30px; color: #fff; }
-        .login-brand-title {
-          font-size: 28px; font-weight: 800;
-          color: #0f172a; margin: 0 0 10px;
-          letter-spacing: -.5px;
-        }
-        .login-brand-sub {
-          font-size: 14px; color: #475569;
-          line-height: 1.6; margin: 0;
-        }
-
-        .login-features {
-          list-style: none; padding: 0; margin: 0;
-          display: flex; flex-direction: column; gap: 14px;
-          position: relative; z-index: 1;
-        }
-        .login-feature-item {
-          display: flex; align-items: center; gap: 12px;
-          font-size: 13px; color: #475569;
-          font-weight: 500;
-        }
-        .login-feature-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: linear-gradient(135deg, #6366f1, #8b5cf6);
-          flex-shrink: 0;
-          box-shadow: 0 0 8px rgba(99,102,241,.4);
-        }
-        .login-version {
-          font-size: 11px; color: #94a3b8;
-          position: relative; z-index: 1;
-        }
-
-        /* ── Right panel ── */
-        .login-panel-right {
-          flex: 1;
-          display: flex; align-items: center; justify-content: center;
-          padding: 32px 20px;
-          background: #f8fafc;
-        }
-        .login-form-card {
-          width: 100%; max-width: 420px;
-          background: #ffffff;
-          border: 1px solid rgba(148,163,184,.2);
-          border-radius: 20px;
-          padding: 44px 40px;
-          box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.05),
-            0 20px 40px -10px rgba(0, 0, 0, 0.08);
-        }
-
-        .login-form-header { text-align: center; margin-bottom: 32px; }
-        .login-shield-badge {
-          display: inline-flex; align-items: center; justify-content: center;
-          width: 52px; height: 52px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, rgba(79,70,229,.1), rgba(124,58,237,.08));
-          border: 1px solid rgba(99,102,241,.15);
-          margin-bottom: 18px;
-        }
-        .login-shield-icon { width: 24px; height: 24px; color: #6366f1; }
-        .login-form-title {
-          font-size: 24px; font-weight: 700;
-          color: #0f172a; margin: 0 0 8px;
-          letter-spacing: -.4px;
-        }
-        .login-form-desc {
-          font-size: 13px; color: #64748b;
-          line-height: 1.6; margin: 0;
-        }
-
-        .login-error {
-          display: flex; align-items: flex-start; gap: 10px;
-          padding: 12px 14px;
-          background: #fef2f2;
-          border: 1px solid #fecaca;
-          border-radius: 10px;
-          color: #ef4444;
-          font-size: 13px; font-weight: 500;
-          margin-bottom: 20px;
-          animation: errIn .2s ease;
-        }
-        @keyframes errIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
-
-        .login-form { display: flex; flex-direction: column; gap: 20px; }
-
-        .login-field { display: flex; flex-direction: column; gap: 7px; }
-        .login-label {
-          font-size: 12.5px; font-weight: 600;
-          color: #334155;
-          letter-spacing: .3px;
-        }
-        .login-input-wrap { position: relative; }
-        .login-input-icon {
-          position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-          width: 16px; height: 16px; color: #94a3b8;
-          pointer-events: none;
-        }
-        .login-input {
-          width: 100%; padding: 12px 14px 12px 42px;
-          background: #f8fafc;
-          border: 1px solid #cbd5e1;
-          border-radius: 10px;
-          color: #0f172a;
-          font-size: 14px;
-          font-family: 'Inter', sans-serif;
-          outline: none;
-          transition: border-color .2s, box-shadow .2s, background .2s;
-          box-sizing: border-box;
-        }
-        .login-input::placeholder { color: #94a3b8; }
-        .login-input:focus {
-          border-color: #6366f1;
-          box-shadow: 0 0 0 3px rgba(99,102,241,.15);
-          background: #ffffff;
-        }
-        .login-input--error { border-color: #ef4444 !important; }
-        .login-input--error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,.15) !important; }
-        .login-input--pwd { padding-right: 44px; }
-
-        .login-eye-btn {
-          position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-          background: none; border: none; padding: 0; cursor: pointer;
-          color: #94a3b8;
-          display: flex; align-items: center;
-          transition: color .2s;
-        }
-        .login-eye-btn:hover { color: #64748b; }
-
-        .login-field-error {
-          font-size: 11.5px; color: #ef4444;
-          margin: 0;
-        }
-
-        .login-submit-btn {
-          width: 100%; height: 48px;
-          display: flex; align-items: center; justify-content: center; gap: 8px;
-          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-          color: #fff;
-          border: none; border-radius: 12px;
-          font-size: 15px; font-weight: 700;
-          font-family: 'Inter', sans-serif;
-          cursor: pointer;
-          letter-spacing: .2px;
-          transition: opacity .2s, transform .1s, box-shadow .2s;
-          box-shadow: 0 4px 14px rgba(99,102,241,.3);
-          margin-top: 6px;
-        }
-        .login-submit-btn:hover:not(:disabled) {
-          opacity: .92;
-          box-shadow: 0 6px 20px rgba(99,102,241,.4);
-          transform: translateY(-1px);
-        }
-        .login-submit-btn:active:not(:disabled) { transform: translateY(0); }
-        .login-submit-btn:disabled { opacity: .55; cursor: not-allowed; }
-
-        .login-footer {
-          margin-top: 28px;
-          display: flex; flex-direction: column; align-items: center; gap: 8px;
-          border-top: 1px solid #e2e8f0;
-          padding-top: 22px;
-        }
-        .login-footer-badge {
-          display: inline-flex; align-items: center; gap: 6px;
-          font-size: 11.5px; font-weight: 500;
-          color: #6366f1;
-        }
-        .login-footer-note {
-          font-size: 11px; color: #64748b;
-          text-align: center; margin: 0;
-        }
-      `}</style>
     </div>
   );
 }

@@ -7,9 +7,12 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import {
   Lock, Mail, ArrowRight, Shield,
-  Building2, AlertCircle, Loader2, Landmark
+  Building2, AlertCircle, Loader2, Landmark, CheckCircle2
 } from 'lucide-react';
 import apiClient from '@/lib/axios';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const registerSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address.' }),
@@ -60,403 +63,206 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="login-root">
+    <div className="flex min-h-screen bg-slate-50 font-sans">
       {/* Left panel – branding */}
-      <div className="login-panel-left">
-        <div className="login-brand">
-          <div className="login-logo-ring">
-            <Building2 className="login-logo-icon" />
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-50 border-r border-indigo-500/15 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{
+          background: `
+            radial-gradient(ellipse 60% 50% at 0% 0%, rgba(99,102,241,.1) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 60% at 100% 100%, rgba(139,92,246,.08) 0%, transparent 70%)
+          `
+        }} />
+        
+        <div className="relative z-10">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center mb-6 shadow-[0_8px_32px_rgba(99,102,241,0.3)]">
+            <Building2 className="w-8 h-8 text-white" />
           </div>
-          <h1 className="login-brand-title">Enterprise CRM</h1>
-          <p className="login-brand-sub">
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Enterprise CRM</h1>
+          <p className="text-sm text-slate-600 leading-relaxed">
             Register your business to set up your administration workspace.
           </p>
         </div>
 
-        <ul className="login-features">
+        <ul className="flex flex-col gap-4 relative z-10">
           {[
-            { label: 'Create your secure tenant workspace' },
-            { label: 'Set up administrative credentials' },
-            { label: 'Configure industry defaults' },
-            { label: 'Ready-to-use ledger & charts' },
-          ].map((f) => (
-            <li key={f.label} className="login-feature-item">
-              <span className="login-feature-dot" />
-              {f.label}
+            'Create your secure tenant workspace',
+            'Set up administrative credentials',
+            'Configure industry defaults',
+            'Ready-to-use ledger & charts',
+          ].map((label) => (
+            <li key={label} className="flex items-center gap-3 text-sm font-medium text-slate-600">
+              <span className="w-2 h-2 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 shrink-0 shadow-[0_0_8px_rgba(99,102,241,0.4)]" />
+              {label}
             </li>
           ))}
         </ul>
 
-        <p className="login-version">v1.0 · Enterprise Edition</p>
+        <p className="text-xs text-slate-400 relative z-10 font-medium">v1.0 · Enterprise Edition</p>
       </div>
 
       {/* Right panel – form */}
-      <div className="login-panel-right">
-        <div className="login-form-card">
+      <div className="flex-1 flex items-center justify-center p-8 bg-slate-50">
+        <div className="w-full max-w-[420px] bg-white border border-slate-200 rounded-3xl p-10 shadow-xl shadow-slate-200/50">
           {/* Header */}
-          <div className="login-form-header">
-            <div className="login-shield-badge">
-              <Landmark className="login-shield-icon" />
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-600/10 to-violet-600/10 border border-indigo-500/15 mb-5">
+              <Landmark className="w-6 h-6 text-indigo-500" />
             </div>
-            <h2 className="login-form-title">Create Workspace</h2>
-            <p className="login-form-desc">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2 tracking-tight">Create Workspace</h2>
+            <p className="text-sm text-slate-500 leading-relaxed">
               Register a new organization and default administrator.
             </p>
           </div>
 
-          {/* Success / Error alerts */}
+          {/* Success Alert */}
           {success && (
-            <div className="register-success" role="alert">
-              <span>Account registered successfully! Redirecting to login...</span>
-            </div>
+            <Alert className="mb-6 bg-green-50 border-green-200 text-green-700 animate-in fade-in slide-in-from-top-2">
+              <CheckCircle2 className="h-4 w-4 stroke-green-700" />
+              <AlertDescription className="text-xs font-medium">
+                Account registered successfully! Redirecting to login...
+              </AlertDescription>
+            </Alert>
           )}
 
+          {/* Error Alert */}
           {error && (
-            <div className="login-error" role="alert">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              <span>{error}</span>
-            </div>
+            <Alert variant="destructive" className="mb-6 bg-red-50 border-red-200 text-red-600 animate-in fade-in slide-in-from-top-2">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
+            </Alert>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="login-form" noValidate>
-            {/* Business Name */}
-            <div className="login-field">
-              <label htmlFor="register-business" className="login-label">
-                Company / Business Name
-              </label>
-              <div className="login-input-wrap">
-                <Building2 className="login-input-icon" />
-                <input
-                  id="register-business"
-                  type="text"
-                  placeholder="e.g. Acme Corporation"
-                  className={`login-input ${errors.business ? 'login-input--error' : ''}`}
-                  {...register('business')}
-                />
-              </div>
-              {errors.business && (
-                <p className="login-field-error">{errors.business.message}</p>
-              )}
-            </div>
-
-            {/* Industry */}
-            <div className="login-field">
-              <label htmlFor="register-industry" className="login-label">
-                Industry Sector
-              </label>
-              <div className="login-input-wrap">
-                <Building2 className="login-input-icon" />
-                <select
-                  id="register-industry"
-                  className={`login-input appearance-none ${errors.industry ? 'login-input--error' : ''}`}
-                  {...register('industry')}
-                  style={{ paddingRight: '20px' }}
-                >
-                  <option value="" disabled>Select industry type</option>
-                  <option value="Retail">Retail & E-commerce</option>
-                  <option value="Services">Professional Services</option>
-                  <option value="Manufacturing">Manufacturing & Distribution</option>
-                  <option value="Tech">Technology & SaaS</option>
-                  <option value="Other">Other / General ERP</option>
-                </select>
-              </div>
-              {errors.industry && (
-                <p className="login-field-error">{errors.industry.message}</p>
-              )}
-            </div>
-
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+            
             {/* Email */}
-            <div className="login-field">
-              <label htmlFor="register-email" className="login-label">
-                Admin Email Address
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="reg-email" className="text-sm font-semibold text-slate-700">
+                Administrator Email
               </label>
-              <div className="login-input-wrap">
-                <Mail className="login-input-icon" />
-                <input
-                  id="register-email"
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <Input
+                  id="reg-email"
                   type="email"
+                  autoComplete="username"
                   placeholder="admin@company.com"
-                  className={`login-input ${errors.email ? 'login-input--error' : ''}`}
+                  className={`pl-10 h-12 bg-slate-50/50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 text-sm shadow-none ${errors.email ? 'border-red-500 focus-visible:ring-red-500/20' : ''}`}
                   {...register('email')}
+                  disabled={success}
                 />
               </div>
               {errors.email && (
-                <p className="login-field-error">{errors.email.message}</p>
+                <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
               )}
             </div>
 
             {/* Password */}
-            <div className="login-field">
-              <label htmlFor="register-password" className="login-label">
-                Admin Password
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="reg-password" className="text-sm font-semibold text-slate-700">
+                Password
               </label>
-              <div className="login-input-wrap">
-                <Lock className="login-input-icon" />
-                <input
-                  id="register-password"
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <Input
+                  id="reg-password"
                   type="password"
-                  placeholder="Create secure password"
-                  className={`login-input ${errors.password ? 'login-input--error' : ''}`}
+                  autoComplete="new-password"
+                  placeholder="Create a strong password"
+                  className={`pl-10 h-12 bg-slate-50/50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 text-sm shadow-none ${errors.password ? 'border-red-500 focus-visible:ring-red-500/20' : ''}`}
                   {...register('password')}
+                  disabled={success}
                 />
               </div>
               {errors.password && (
-                <p className="login-field-error">{errors.password.message}</p>
+                <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
+              )}
+            </div>
+
+            {/* Business Name */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="reg-business" className="text-sm font-semibold text-slate-700">
+                Business / Workspace Name
+              </label>
+              <div className="relative">
+                <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <Input
+                  id="reg-business"
+                  type="text"
+                  placeholder="e.g. Acme Corp"
+                  className={`pl-10 h-12 bg-slate-50/50 border-slate-200 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 text-sm shadow-none ${errors.business ? 'border-red-500 focus-visible:ring-red-500/20' : ''}`}
+                  {...register('business')}
+                  disabled={success}
+                />
+              </div>
+              {errors.business && (
+                <p className="text-xs text-red-500 mt-1">{errors.business.message}</p>
+              )}
+            </div>
+
+            {/* Industry Dropdown */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="reg-industry" className="text-sm font-semibold text-slate-700">
+                Industry
+              </label>
+              <div className="relative">
+                <select
+                  id="reg-industry"
+                  className={`w-full h-12 px-3.5 bg-slate-50/50 border border-slate-200 rounded-lg text-sm text-slate-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 transition-colors shadow-none appearance-none ${errors.industry ? 'border-red-500 focus-visible:ring-red-500/20' : ''}`}
+                  {...register('industry')}
+                  disabled={success}
+                >
+                  <option value="" disabled className="text-slate-500">Select Industry</option>
+                  <option value="Tech">Technology</option>
+                  <option value="Retail">Retail</option>
+                  <option value="Healthcare">Healthcare</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Other">Other</option>
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+              {errors.industry && (
+                <p className="text-xs text-red-500 mt-1">{errors.industry.message}</p>
               )}
             </div>
 
             {/* Submit */}
-            <button
+            <Button
               type="submit"
-              className="login-submit-btn"
+              className="w-full h-12 mt-4 bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 shadow-[0_4px_14px_rgba(99,102,241,0.3)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.4)] transition-all text-sm font-bold text-white"
               disabled={isLoading || success}
-              id="register-submit"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Creating Workspace…
                 </>
               ) : (
                 <>
-                  Create Account
-                  <ArrowRight className="h-4 w-4" />
+                  Register Workspace
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </>
               )}
-            </button>
+            </Button>
           </form>
 
           {/* Footer */}
-          <div className="login-footer">
-            <div className="login-footer-badge">
-              <Shield className="h-3.5 w-3.5" />
-              Secured Connection
+          <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-500">
+              <Shield className="w-3.5 h-3.5" />
+              Secured with AES-256 Encryption
             </div>
-            <p className="login-footer-note">
+            <p className="text-xs text-slate-500">
               Already have an account?{' '}
-              <a href="/login" className="text-primary hover:underline font-semibold" style={{ color: '#818cf8' }}>
+              <a href="/login" className="text-indigo-500 hover:underline font-semibold">
                 Sign In
               </a>
             </p>
           </div>
         </div>
       </div>
-
-      {/* Inline styles mapping exactly to login layout */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-        .login-root {
-          font-family: 'Inter', sans-serif;
-          display: flex;
-          min-height: 100vh;
-          background: #f8fafc;
-        }
-
-        .login-panel-left {
-          display: none;
-          flex-direction: column;
-          justify-content: space-between;
-          padding: 56px 52px;
-          background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 60%, #f8fafc 100%);
-          border-right: 1px solid rgba(99,102,241,.15);
-          position: relative;
-          overflow: hidden;
-        }
-        .login-panel-left::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(ellipse 60% 50% at 0% 0%, rgba(99,102,241,.1) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 60% at 100% 100%, rgba(139,92,246,.08) 0%, transparent 70%);
-          pointer-events: none;
-        }
-        @media (min-width: 1024px) { .login-panel-left { display: flex; flex: 1; } }
-
-        .login-brand { position: relative; z-index: 1; }
-        .login-logo-ring {
-          width: 60px; height: 60px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, #4f46e5, #7c3aed);
-          display: flex; align-items: center; justify-content: center;
-          margin-bottom: 24px;
-          box-shadow: 0 8px 32px rgba(99,102,241,.3);
-        }
-        .login-logo-icon { width: 30px; height: 30px; color: #fff; }
-        .login-brand-title {
-          font-size: 28px; font-weight: 800;
-          color: #0f172a; margin: 0 0 10px;
-          letter-spacing: -.5px;
-        }
-        .login-brand-sub {
-          font-size: 14px; color: #475569;
-          line-height: 1.6; margin: 0;
-        }
-
-        .login-features {
-          list-style: none; padding: 0; margin: 0;
-          display: flex; flex-direction: column; gap: 14px;
-          position: relative; z-index: 1;
-        }
-        .login-feature-item {
-          display: flex; align-items: center; gap: 12px;
-          font-size: 13px; color: #475569;
-          font-weight: 500;
-        }
-        .login-feature-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: linear-gradient(135deg, #6366f1, #8b5cf6);
-          flex-shrink: 0;
-          box-shadow: 0 0 8px rgba(99,102,241,.4);
-        }
-        .login-version {
-          font-size: 11px; color: #94a3b8;
-          position: relative; z-index: 1;
-        }
-
-        .login-panel-right {
-          flex: 1;
-          display: flex; align-items: center; justify-content: center;
-          padding: 32px 20px;
-          background: #f8fafc;
-        }
-        .login-form-card {
-          width: 100%; max-width: 420px;
-          background: #ffffff;
-          border: 1px solid rgba(148,163,184,.2);
-          border-radius: 20px;
-          padding: 44px 40px;
-          box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.05),
-            0 20px 40px -10px rgba(0, 0, 0, 0.08);
-        }
-
-        .login-form-header { text-align: center; margin-bottom: 28px; }
-        .login-shield-badge {
-          display: inline-flex; align-items: center; justify-content: center;
-          width: 52px; height: 52px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, rgba(79,70,229,.1), rgba(124,58,237,.08));
-          border: 1px solid rgba(99,102,241,.15);
-          margin-bottom: 18px;
-        }
-        .login-shield-icon { width: 24px; height: 24px; color: #6366f1; }
-        .login-form-title {
-          font-size: 24px; font-weight: 700;
-          color: #0f172a; margin: 0 0 8px;
-          letter-spacing: -.4px;
-        }
-        .login-form-desc {
-          font-size: 13px; color: #64748b;
-          line-height: 1.6; margin: 0;
-        }
-
-        .register-success {
-          padding: 12px 14px;
-          background: #f0fdf4;
-          border: 1px solid #bbf7d0;
-          border-radius: 10px;
-          color: #15803d;
-          font-size: 13px; font-weight: 500;
-          margin-bottom: 20px;
-        }
-
-        .login-error {
-          display: flex; align-items: flex-start; gap: 10px;
-          padding: 12px 14px;
-          background: #fef2f2;
-          border: 1px solid #fecaca;
-          border-radius: 10px;
-          color: #ef4444;
-          font-size: 13px; font-weight: 500;
-          margin-bottom: 20px;
-          animation: errIn .2s ease;
-        }
-        @keyframes errIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
-
-        .login-form { display: flex; flex-direction: column; gap: 16px; }
-
-        .login-field { display: flex; flex-direction: column; gap: 6px; }
-        .login-label {
-          font-size: 12.5px; font-weight: 600;
-          color: #334155;
-          letter-spacing: .3px;
-        }
-        .login-input-wrap { position: relative; }
-        .login-input-icon {
-          position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-          width: 16px; height: 16px; color: #94a3b8;
-          pointer-events: none;
-        }
-        .login-input {
-          width: 100%; padding: 12px 14px 12px 42px;
-          background: #f8fafc;
-          border: 1px solid #cbd5e1;
-          border-radius: 10px;
-          color: #0f172a;
-          font-size: 14px;
-          font-family: 'Inter', sans-serif;
-          outline: none;
-          transition: border-color .2s, box-shadow .2s, background .2s;
-          box-sizing: border-box;
-        }
-        .login-input option {
-          background-color: #ffffff;
-          color: #0f172a;
-        }
-        .login-input::placeholder { color: #94a3b8; }
-        .login-input:focus {
-          border-color: #6366f1;
-          box-shadow: 0 0 0 3px rgba(99,102,241,.15);
-          background: #ffffff;
-        }
-        .login-input--error { border-color: #ef4444 !important; }
-        .login-input--error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,.15) !important; }
-
-        .login-field-error {
-          font-size: 11.5px; color: #ef4444;
-          margin: 0;
-        }
-
-        .login-submit-btn {
-          width: 100%; height: 48px;
-          display: flex; align-items: center; justify-content: center; gap: 8px;
-          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-          color: #fff;
-          border: none; border-radius: 12px;
-          font-size: 15px; font-weight: 700;
-          font-family: 'Inter', sans-serif;
-          cursor: pointer;
-          letter-spacing: .2px;
-          transition: opacity .2s, transform .1s, box-shadow .2s;
-          box-shadow: 0 4px 14px rgba(99,102,241,.3);
-          margin-top: 10px;
-        }
-        .login-submit-btn:hover:not(:disabled) {
-          opacity: .92;
-          box-shadow: 0 6px 20px rgba(99,102,241,.4);
-          transform: translateY(-1px);
-        }
-        .login-submit-btn:disabled { opacity: .55; cursor: not-allowed; }
-
-        .login-footer {
-          margin-top: 24px;
-          display: flex; flex-direction: column; align-items: center; gap: 8px;
-          border-top: 1px solid #e2e8f0;
-          padding-top: 20px;
-        }
-        .login-footer-badge {
-          display: inline-flex; align-items: center; gap: 6px;
-          font-size: 11.5px; font-weight: 500;
-          color: #6366f1;
-        }
-        .login-footer-note {
-          font-size: 11px; color: #64748b;
-          text-align: center; margin: 0;
-        }
-      `}</style>
     </div>
   );
 }
