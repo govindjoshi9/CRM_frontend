@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/authStore';
 
 // Create a centralized Axios instance
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://erp-backend.jcbbooking.com/api' : 'http://localhost:5000/api'),
   headers: {
     'Content-Type': 'application/json',
   },
