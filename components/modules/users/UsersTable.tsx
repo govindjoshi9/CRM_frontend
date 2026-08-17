@@ -166,15 +166,6 @@ export function UsersTable({
                           {u.status === "active" ? "Deactivate" : "Activate"}
                         </DropdownMenuItem>
                       )}
-                      {!isSelf && (
-                        <DropdownMenuItem
-                          onClick={() => onDeleteUser(u)}
-                          className="text-xs cursor-pointer text-red-600 focus:text-red-600 gap-2"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                          Delete User
-                        </DropdownMenuItem>
-                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

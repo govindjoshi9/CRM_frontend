@@ -60,8 +60,16 @@ export function UserFormDialog({
     setIsLoading(true);
 
     try {
-      const res = await EmployeeService.createEmployee(addForm);
-      setSuccess(res.message || "User/Employee created successfully! Password auto-generated.");
+      const res = await EmployeeService.createEmployee(addForm) as any;
+      
+      let successMsg = "User/Employee created successfully!";
+      if (res.login?.tempPassword) {
+        successMsg = `Created successfully! Auto-generated Password: ${res.login.tempPassword} (Please copy this for the user)`;
+      } else if (res.login?.note) {
+        successMsg = `Created successfully! ${res.login.note}`;
+      }
+
+      setSuccess(successMsg);
       setAddForm({
         name: "",
         email: "",
@@ -77,7 +85,7 @@ export function UserFormDialog({
         onOpenChange(false);
         setSuccess(null);
         onSuccess();
-      }, 2000);
+      }, 6000); // Increased timeout so they have time to copy the password
     } catch (err: any) {
       const msg = err.response?.data?.error || "Failed to create user";
       setError(msg);

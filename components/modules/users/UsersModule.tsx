@@ -16,6 +16,7 @@ export function UsersModule() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("active");
 
   const [isAddOpen, setIsAddOpen] = useState(false);
 
@@ -64,12 +65,20 @@ export function UsersModule() {
   };
 
   const filteredEmployees = employees.filter((u) => {
-    return (
-      !search.trim() ||
+    const matchesSearch = !search.trim() ||
       u.email?.toLowerCase().includes(search.toLowerCase()) ||
       u.name?.toLowerCase().includes(search.toLowerCase()) ||
-      u.phone?.includes(search)
-    );
+      u.phone?.includes(search);
+      
+    // Apply the status filter
+    let matchesStatus = true;
+    if (statusFilter === "active") {
+      matchesStatus = u.status === "active";
+    } else if (statusFilter === "inactive") {
+      matchesStatus = u.status === "inactive" || u.status === "suspended" || u.status === "terminated";
+    }
+    
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -78,7 +87,9 @@ export function UsersModule() {
         employees={employees}
         isLoading={isLoading}
         search={search}
+        statusFilter={statusFilter}
         onSearchChange={setSearch}
+        onStatusFilterChange={setStatusFilter}
         onRefresh={fetchData}
         onAddClick={() => setIsAddOpen(true)}
       />

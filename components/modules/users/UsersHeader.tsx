@@ -16,7 +16,9 @@ interface UsersHeaderProps {
   employees: EmployeeItem[];
   isLoading: boolean;
   search: string;
+  statusFilter: string;
   onSearchChange: (val: string) => void;
+  onStatusFilterChange: (val: string) => void;
   onRefresh: () => void;
   onAddClick: () => void;
 }
@@ -25,7 +27,9 @@ export function UsersHeader({
   employees,
   isLoading,
   search,
+  statusFilter,
   onSearchChange,
+  onStatusFilterChange,
   onRefresh,
   onAddClick,
 }: UsersHeaderProps) {
@@ -87,14 +91,26 @@ export function UsersHeader({
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative w-full sm:max-w-xs">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <Input
-            value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search by name, email, phone…"
-            className="h-10 pl-9 bg-white border-slate-200"
-          />
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Input
+              value={search}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder="Search members…"
+              className="h-10 pl-9 bg-white border-slate-200"
+            />
+          </div>
+          <select
+            className="h-10 px-3 bg-white border border-slate-200 rounded-md text-sm text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20"
+            onChange={(e) => onStatusFilterChange(e.target.value)}
+            value={statusFilter}
+            id="status-filter"
+          >
+            <option value="active">Active Only</option>
+            <option value="inactive">Inactive Only</option>
+            <option value="all">All Members</option>
+          </select>
         </div>
       </div>
     </div>
