@@ -42,7 +42,7 @@ export const EmployeeService = {
     try {
       const res = await apiClient.get("/departments");
       return Array.isArray(res.data) ? res.data : res.data?.data || [];
-    } catch (err) {
+    } catch {
       return [];
     }
   },
@@ -54,7 +54,7 @@ export const EmployeeService = {
     try {
       const res = await apiClient.get("/designations");
       return Array.isArray(res.data) ? res.data : res.data?.data || [];
-    } catch (err) {
+    } catch {
       return [];
     }
   },
@@ -62,7 +62,7 @@ export const EmployeeService = {
   /**
    * Create a new employee
    */
-  async createEmployee(payload: any): Promise<{ message?: string }> {
+  async createEmployee(payload: Record<string, unknown>): Promise<{ message?: string; login?: { tempPassword?: string; note?: string } }> {
     const formattedPayload = {
       ...payload,
       departmentId: Number(payload.departmentId),

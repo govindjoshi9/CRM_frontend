@@ -1,7 +1,6 @@
 import {
   Shield,
   MoreHorizontal,
-  Trash2,
   Users,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -31,7 +30,6 @@ interface UsersTableProps {
   employees: EmployeeItem[];
   isLoading: boolean;
   onToggleStatus: (employee: EmployeeItem) => void;
-  onDeleteUser: (employee: EmployeeItem) => void;
   onAddClick: () => void;
 }
 
@@ -39,7 +37,6 @@ export function UsersTable({
   employees,
   isLoading,
   onToggleStatus,
-  onDeleteUser,
   onAddClick,
 }: UsersTableProps) {
   const { user: currentUser } = useAuthStore();

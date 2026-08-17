@@ -33,8 +33,9 @@ export function UsersModule() {
       setEmployees(empData);
       setDepartments(deptData);
       setDesignations(desigData);
-    } catch (err: any) {
-      const msg = err.response?.data?.error || err.message || "Failed to load data";
+    } catch (err: unknown) {
+      const errorObj = err as { response?: { data?: { error?: string } }, message?: string };
+      const msg = errorObj.response?.data?.error || errorObj.message || "Failed to load data";
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -49,18 +50,9 @@ export function UsersModule() {
     try {
       await EmployeeService.toggleStatus(target.id, target.status);
       fetchData();
-    } catch (err: any) {
-      alert(err.response?.data?.error || "Failed to update status");
-    }
-  };
-
-  const handleDeleteUser = async (target: EmployeeItem) => {
-    if (!confirm(`Are you sure you want to deactivate ${target.name}?`)) return;
-    try {
-      await EmployeeService.deleteEmployee(target.id);
-      fetchData();
-    } catch (err: any) {
-      alert(err.response?.data?.error || "Failed to delete user");
+    } catch (err: unknown) {
+      const errorObj = err as { response?: { data?: { error?: string } } };
+      alert(errorObj.response?.data?.error || "Failed to update status");
     }
   };
 
@@ -105,7 +97,6 @@ export function UsersModule() {
         employees={filteredEmployees}
         isLoading={isLoading}
         onToggleStatus={handleToggleStatus}
-        onDeleteUser={handleDeleteUser}
         onAddClick={() => setIsAddOpen(true)}
       />
 

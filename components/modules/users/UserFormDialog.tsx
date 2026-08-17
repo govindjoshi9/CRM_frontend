@@ -60,7 +60,7 @@ export function UserFormDialog({
     setIsLoading(true);
 
     try {
-      const res = await EmployeeService.createEmployee(addForm) as any;
+      const res = await EmployeeService.createEmployee(addForm);
       
       let successMsg = "User/Employee created successfully!";
       if (res.login?.tempPassword) {
@@ -86,8 +86,9 @@ export function UserFormDialog({
         setSuccess(null);
         onSuccess();
       }, 6000); // Increased timeout so they have time to copy the password
-    } catch (err: any) {
-      const msg = err.response?.data?.error || "Failed to create user";
+    } catch (err: unknown) {
+      const errorObj = err as { response?: { data?: { error?: string } } };
+      const msg = errorObj.response?.data?.error || "Failed to create user";
       setError(msg);
     } finally {
       setIsLoading(false);
