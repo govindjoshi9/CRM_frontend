@@ -1,13 +1,3 @@
-/**
- * Zamtrix ERP — Module Registry
- * =============================
- * Single source of truth for every backend module + its REST endpoints.
- * Sidebar, breadcrumbs, and route guards all read from this.
- *
- * Each entry maps directly to a route prefix mounted in server.js.
- * Update this file when you add a new backend module.
- */
-
 import {
   LayoutDashboard,
   Users,
@@ -855,14 +845,17 @@ export const MODULES: ModuleDef[] = [
   {
     slug: "users",
     label: "Users & Roles",
-    description: "User accounts, role assignments",
+    description: "User accounts, role assignments, permissions",
     icon: UserCog,
     prefix: "/api/users",
     group: "Administration",
-    status: "preview",
+    status: "ready",
     endpoints: [
-      { method: "GET", path: "/", description: "List users" },
-      { method: "PUT", path: "/:id/role", description: "Change role" },
+      { method: "GET", path: "/", description: "List all users in workspace" },
+      { method: "POST", path: "/", description: "Add new user with role", roles: ["admin", "hr"] },
+      { method: "PUT", path: "/:id/role", description: "Change user role", roles: ["admin"] },
+      { method: "PUT", path: "/:id/status", description: "Update status (active/inactive)", roles: ["admin", "hr"] },
+      { method: "DELETE", path: "/:id", description: "Delete user", roles: ["admin"] },
     ],
   },
   {

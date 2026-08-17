@@ -31,6 +31,7 @@ import {
 } from "recharts";
 import { getModule, type ModuleDef } from "@/lib/modules";
 import { ItemsModule } from "@/components/modules/items-module";
+import { UsersModule } from "@/components/modules/users-module";
 import { useAuthStore } from "@/store/authStore";
 
 const REVENUE_DATA = [
@@ -76,6 +77,8 @@ export default function AdminDashboardPage() {
         <AdminDashboardView userEmail={user?.email} />
       ) : activeSlug === "items" ? (
         <ItemsModule />
+      ) : activeSlug === "users" ? (
+        <UsersModule />
       ) : (
         <ModulePreviewView module={activeModule} />
       )}
@@ -129,7 +132,7 @@ function AdminDashboardView({ userEmail }: { userEmail?: string }) {
               </span>
             </div>
           </div>
-          <div className="mt-4 h-[280px] w-full">
+          <div className="mt-4 h-\[280px\] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={REVENUE_DATA} margin={{ left: -8, right: 8, top: 8 }}>
                 <defs>
@@ -176,7 +179,7 @@ function AdminDashboardView({ userEmail }: { userEmail?: string }) {
               <ChevronRight className="ml-1 h-3 w-3" />
             </Button>
           </div>
-          <ScrollArea className="mt-2 h-[280px] pr-2">
+          <ScrollArea className="mt-2 h-\[280px\] pr-2">
             <div className="flex flex-col">
               {ACTIVITY.map((a, i) => {
                 const Icon = a.icon;

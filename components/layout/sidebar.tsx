@@ -96,7 +96,7 @@ export function Sidebar({ activeSlug, onNavigate }: SidebarProps) {
       </div>
 
       {/* Modules */}
-      <ScrollArea className="sidebar-scroll flex-1 px-2 pb-4">
+      <ScrollArea className="sidebar-scroll flex-1 min-h-0 px-2 pb-4">
         <nav className="flex flex-col gap-0.5">
           {MODULE_GROUPS.map((group) => {
             const items = filtered[group];

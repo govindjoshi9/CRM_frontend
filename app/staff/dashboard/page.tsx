@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getModule, type ModuleDef } from "@/lib/modules";
 import { ItemsModule } from "@/components/modules/items-module";
+import { UsersModule } from "@/components/modules/users-module";
 import { useAuthStore } from "@/store/authStore";
 
 const TASKS = [
@@ -54,6 +55,8 @@ export default function StaffDashboardPage() {
         <StaffDashboardView userRole={user?.role} userEmail={user?.email} />
       ) : activeSlug === "items" ? (
         <ItemsModule />
+      ) : activeSlug === "users" ? (
+        <UsersModule />
       ) : (
         <ModulePreviewView module={activeModule} />
       )}
