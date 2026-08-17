@@ -1,14 +1,3 @@
-/**
- * API client for Zamtrix ERP backend.
- *
- * Backend repo: server_extracted/  (Express + Sequelize + PostgreSQL)
- * Auth: JWT Bearer token, returned by POST /api/auth/login
- * Token is stored in localStorage and injected on every request.
- *
- * ⚠️ Configure NEXT_PUBLIC_API_BASE_URL in .env.local
- *    Example: NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
- *    For Caprover: NEXT_PUBLIC_API_BASE_URL=https://api.yourdomain.com
- */
 
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";

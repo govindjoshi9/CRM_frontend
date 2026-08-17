@@ -1,9 +1,24 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
 
+let dynamicBaseURL = "http://localhost:5000/api"; // Default fallback
+
+if (typeof window !== "undefined") {
+  // If running in browser, check the actual URL
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    dynamicBaseURL = "http://localhost:5000/api";
+  } else {
+    // If not localhost, it must be the live server
+    dynamicBaseURL = "https://erp-backend.jcbbooking.com/api";
+  }
+} else {
+  // Server-side (during build/SSR)
+  dynamicBaseURL = process.env.NEXT_PUBLIC_API_URL || "https://erp-backend.jcbbooking.com/api";
+}
+
 // Create a centralized Axios instance
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://erp-backend.jcbbooking.com/api' : 'http://localhost:5000/api'),
+  baseURL: dynamicBaseURL,
   headers: {
     'Content-Type': 'application/json',
   },

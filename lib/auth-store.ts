@@ -1,7 +1,3 @@
-/**
- * Auth store — Zustand store backed by localStorage.
- * Keeps the JWT + decoded user profile synced across the app.
- */
 "use client";
 
 import { create } from "zustand";
