@@ -85,10 +85,28 @@ export function BusinessProfileModule() {
           <h2 className="text-2xl font-bold tracking-tight text-slate-900">Business Profile</h2>
           <p className="text-sm text-slate-500">Manage your business settings, addresses, and compliance details.</p>
         </div>
-        <Button onClick={handleSave} disabled={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white">
-          <Save className="w-4 h-4 mr-2" />
-          {isSaving ? "Saving..." : "Save Changes"}
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button onClick={async () => {
+            try {
+              const blob = await BusinessService.exportMyBusiness();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `business_export.json`;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+            } catch (err) {
+              toast.error("Failed to export business data");
+            }
+          }} variant="outline" className="text-slate-700">
+            Export Data
+          </Button>
+          <Button onClick={handleSave} disabled={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white">
+            <Save className="w-4 h-4 mr-2" />
+            {isSaving ? "Saving..." : "Save Changes"}
+          </Button>
+        </div>
       </div>
 
       <Tabs defaultValue="general" className="w-full">

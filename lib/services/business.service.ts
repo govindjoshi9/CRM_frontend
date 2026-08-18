@@ -45,7 +45,7 @@ export const BusinessService = {
    */
   async getMyBusiness(): Promise<BusinessItem | null> {
     try {
-      const res = await apiClient.get("/business/me");
+      const res = await apiClient.get("/businesses/me");
       return res.data?.business || null;
     } catch {
       return null;
@@ -73,7 +73,7 @@ export const BusinessService = {
       formData.append("logo", logoFile);
     }
 
-    const res = await apiClient.put("/business/me", formData, {
+    const res = await apiClient.put("/businesses/me", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -86,7 +86,7 @@ export const BusinessService = {
    * Export business data
    */
   async exportMyBusiness(): Promise<Blob> {
-    const res = await apiClient.get("/business/me/export", { responseType: 'blob' });
+    const res = await apiClient.get("/businesses/me/export", { responseType: 'blob' });
     return res.data;
   }
 };

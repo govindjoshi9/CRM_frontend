@@ -851,12 +851,14 @@ export const MODULES: ModuleDef[] = [
     label: "Business Profile",
     description: "Manage business settings and tax compliance",
     icon: Building2,
-    prefix: "/api/business/me",
+    prefix: "/api/businesses/me",
     group: "Administration",
     status: "ready",
     endpoints: [
       { method: "GET", path: "/", description: "Get my business profile" },
       { method: "PUT", path: "/", description: "Update my business profile" },
+      { method: "PUT", path: "/logo", description: "Upload business logo exclusively" },
+      { method: "GET", path: "/export", description: "Export business data as JSON" },
     ],
   },
   {
