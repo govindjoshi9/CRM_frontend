@@ -816,19 +816,7 @@ export const MODULES: ModuleDef[] = [
   },
 
   /* --------------------------- Administration --------------------------- */
-  {
-    slug: "businesses",
-    label: "Businesses",
-    description: "Multi-business / tenant management",
-    icon: Building2,
-    prefix: "/api/businesses",
-    group: "Administration",
-    status: "preview",
-    endpoints: [
-      { method: "GET", path: "/", description: "List businesses" },
-      { method: "POST", path: "/", description: "Create business" },
-    ],
-  },
+
   {
     slug: "branches",
     label: "Branches / Warehouses",
