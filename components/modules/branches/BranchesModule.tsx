@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Plus, Store, Filter } from "lucide-react";
+import { Plus, Store } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,6 +20,7 @@ export function BranchesModule() {
 
   useEffect(() => {
     fetchBranches();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
   const fetchBranches = async () => {
@@ -27,7 +28,7 @@ export function BranchesModule() {
     try {
       const data = await BranchService.getBranches(activeTab, true);
       setBranches(data);
-    } catch (err) {
+    } catch {
       toast.error("Failed to load branches");
     } finally {
       setIsLoading(false);
@@ -45,7 +46,7 @@ export function BranchesModule() {
         await BranchService.deactivateBranch(id);
         toast.success("Location deactivated");
         fetchBranches();
-      } catch (err) {
+      } catch {
         toast.error("Failed to deactivate location");
       }
     }
@@ -70,7 +71,7 @@ export function BranchesModule() {
       </div>
 
       <div className="flex items-center justify-between">
-        <Tabs value={activeTab} onValueChange={(v: any) => setActiveTab(v)} className="w-full md:w-auto">
+        <Tabs value={activeTab} onValueChange={(v: string) => setActiveTab(v as any)} className="w-full md:w-auto">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="all">All Locations</TabsTrigger>
             <TabsTrigger value="branch">Branches Only</TabsTrigger>

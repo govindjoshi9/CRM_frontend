@@ -61,7 +61,7 @@ export function BranchFormDialog({ open, onOpenChange, branch, onSuccess }: Bran
     }
   }, [open, branch]);
 
-  const handleChange = (field: keyof BranchItem, value: any) => {
+  const handleChange = (field: keyof BranchItem, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -83,8 +83,9 @@ export function BranchFormDialog({ open, onOpenChange, branch, onSuccess }: Bran
       }
       onSuccess();
       onOpenChange(false);
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "An error occurred while saving");
+    } catch (err) {
+      const error = err as { response?: { data?: { error?: string } } };
+      toast.error(error?.response?.data?.error || "An error occurred while saving");
     } finally {
       setIsSubmitting(false);
     }

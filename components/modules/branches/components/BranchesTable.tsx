@@ -103,7 +103,7 @@ export function BranchesTable({ branches, isLoading, onEdit, onDeactivate }: Bra
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error */}
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
                       <span className="sr-only">Open menu</span>
