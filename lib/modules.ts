@@ -824,7 +824,7 @@ export const MODULES: ModuleDef[] = [
     icon: Building2,
     prefix: "/api/branches",
     group: "Administration",
-    status: "preview",
+    status: "ready",
     endpoints: [
       { method: "GET", path: "/", description: "List branches" },
       { method: "POST", path: "/", description: "Create branch" },
