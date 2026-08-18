@@ -30,6 +30,7 @@ export function GeneralInfoTab({ business, handleChange, logoPreview, handleFile
         <div className="flex items-center gap-6">
           <div className="relative w-24 h-24 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden bg-slate-50">
             {logoPreview ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={logoPreview} alt="Logo" className="w-full h-full object-contain" />
             ) : (
               <Building2 className="w-8 h-8 text-slate-300" />

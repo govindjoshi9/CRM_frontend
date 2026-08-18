@@ -62,7 +62,7 @@ export function BusinessProfileModule() {
           setLogoPreview(res.business.logoUrl);
         }
       }
-    } catch (err) {
+    } catch {
       toast.error("Failed to update business profile");
     } finally {
       setIsSaving(false);
@@ -96,7 +96,7 @@ export function BusinessProfileModule() {
               document.body.appendChild(a);
               a.click();
               a.remove();
-            } catch (err) {
+            } catch {
               toast.error("Failed to export business data");
             }
           }} variant="outline" className="text-slate-700">

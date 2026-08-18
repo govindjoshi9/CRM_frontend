@@ -35,7 +35,7 @@ export interface BusinessItem {
   radiationLicenseNumber?: string;
   ayushRegistrationNumber?: string;
   practiceLicenseNumber?: string;
-  licenses?: any;
+  licenses?: { type: string; number: string }[];
   updatedAt?: string;
 }
 
