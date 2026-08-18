@@ -32,6 +32,7 @@ import {
 import { getModule, type ModuleDef } from "@/lib/modules";
 import { ItemsModule } from "@/components/modules/items-module";
 import { UsersModule } from "@/components/modules/users-module";
+import { BusinessProfileModule } from "@/components/modules/business-profile/BusinessProfileModule";
 import { useAuthStore } from "@/store/authStore";
 
 const REVENUE_DATA = [
@@ -79,6 +80,8 @@ export default function AdminDashboardPage() {
         <ItemsModule />
       ) : activeSlug === "users" ? (
         <UsersModule />
+      ) : activeSlug === "business-profile" ? (
+        <BusinessProfileModule />
       ) : (
         <ModulePreviewView module={activeModule} />
       )}

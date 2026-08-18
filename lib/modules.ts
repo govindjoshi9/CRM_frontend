@@ -816,19 +816,7 @@ export const MODULES: ModuleDef[] = [
   },
 
   /* --------------------------- Administration --------------------------- */
-  {
-    slug: "businesses",
-    label: "Businesses",
-    description: "Multi-business / tenant management",
-    icon: Building2,
-    prefix: "/api/businesses",
-    group: "Administration",
-    status: "preview",
-    endpoints: [
-      { method: "GET", path: "/", description: "List businesses" },
-      { method: "POST", path: "/", description: "Create business" },
-    ],
-  },
+
   {
     slug: "branches",
     label: "Branches / Warehouses",
@@ -856,6 +844,21 @@ export const MODULES: ModuleDef[] = [
       { method: "PUT", path: "/:id/role", description: "Change user role", roles: ["admin"] },
       { method: "PUT", path: "/:id/status", description: "Update status (active/inactive)", roles: ["admin", "hr"] },
       { method: "DELETE", path: "/:id", description: "Delete user", roles: ["admin"] },
+    ],
+  },
+  {
+    slug: "business-profile",
+    label: "Business Profile",
+    description: "Manage business settings and tax compliance",
+    icon: Building2,
+    prefix: "/api/businesses/me",
+    group: "Administration",
+    status: "ready",
+    endpoints: [
+      { method: "GET", path: "/", description: "Get my business profile" },
+      { method: "PUT", path: "/", description: "Update my business profile" },
+      { method: "PUT", path: "/logo", description: "Upload business logo exclusively" },
+      { method: "GET", path: "/export", description: "Export business data as JSON" },
     ],
   },
   {
