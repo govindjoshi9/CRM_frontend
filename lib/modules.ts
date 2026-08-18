@@ -859,6 +859,19 @@ export const MODULES: ModuleDef[] = [
     ],
   },
   {
+    slug: "business-profile",
+    label: "Business Profile",
+    description: "Manage business settings and tax compliance",
+    icon: Building2,
+    prefix: "/api/business/me",
+    group: "Administration",
+    status: "ready",
+    endpoints: [
+      { method: "GET", path: "/", description: "Get my business profile" },
+      { method: "PUT", path: "/", description: "Update my business profile" },
+    ],
+  },
+  {
     slug: "settings",
     label: "Settings",
     description: "Business preferences, invoice templates",
