@@ -299,7 +299,7 @@ export const MODULES: ModuleDef[] = [
     icon: Warehouse,
     prefix: "/api/inventory",
     group: "Inventory",
-    status: "preview",
+    status: "ready",
     endpoints: [
       { method: "GET", path: "/", description: "List inventory by branch" },
       { method: "POST", path: "/adjust", description: "Stock adjustment" },
