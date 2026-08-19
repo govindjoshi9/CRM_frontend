@@ -19,6 +19,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getModule, type ModuleDef } from "@/lib/modules";
+import { InventoryModule } from "@/components/modules/inventory/InventoryModule";
 import { ItemsModule } from "@/components/modules/items/ItemsModule";
 import { UsersModule } from "@/components/modules/users-module";
 import { useAuthStore } from "@/store/authStore";
@@ -53,6 +54,8 @@ export default function StaffDashboardPage() {
     <AppShell activeSlug={activeSlug} onNavigate={handleNavigate}>
       {activeSlug === "dashboard" || !activeModule ? (
         <StaffDashboardView userRole={user?.role} userEmail={user?.email} />
+      ) : activeSlug === "inventory" ? (
+        <InventoryModule />
       ) : activeSlug === "items" ? (
         <ItemsModule />
       ) : activeSlug === "users" ? (

@@ -30,6 +30,7 @@ import {
   YAxis,
 } from "recharts";
 import { getModule, type ModuleDef } from "@/lib/modules";
+import { InventoryModule } from "@/components/modules/inventory/InventoryModule";
 import { ItemsModule } from "@/components/modules/items/ItemsModule";
 import { UsersModule } from "@/components/modules/users-module";
 import { BusinessProfileModule } from "@/components/modules/business-profile/BusinessProfileModule";
@@ -77,6 +78,8 @@ export default function AdminDashboardPage() {
     <AppShell activeSlug={activeSlug} onNavigate={handleNavigate}>
       {activeSlug === "dashboard" || !activeModule ? (
         <AdminDashboardView userEmail={user?.email} />
+      ) : activeSlug === "inventory" ? (
+        <InventoryModule />
       ) : activeSlug === "items" ? (
         <ItemsModule />
       ) : activeSlug === "users" ? (
