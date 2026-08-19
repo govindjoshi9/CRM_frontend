@@ -30,7 +30,7 @@ import {
   YAxis,
 } from "recharts";
 import { getModule, type ModuleDef } from "@/lib/modules";
-import { ItemsModule } from "@/components/modules/items-module";
+import { ItemsModule } from "@/components/modules/items/ItemsModule";
 import { UsersModule } from "@/components/modules/users-module";
 import { BusinessProfileModule } from "@/components/modules/business-profile/BusinessProfileModule";
 import { BranchesModule } from "@/components/modules/branches/BranchesModule";

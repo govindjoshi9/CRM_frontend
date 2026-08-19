@@ -19,7 +19,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getModule, type ModuleDef } from "@/lib/modules";
-import { ItemsModule } from "@/components/modules/items-module";
+import { ItemsModule } from "@/components/modules/items/ItemsModule";
 import { UsersModule } from "@/components/modules/users-module";
 import { useAuthStore } from "@/store/authStore";
 
