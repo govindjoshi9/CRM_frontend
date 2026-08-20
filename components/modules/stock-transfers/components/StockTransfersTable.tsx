@@ -95,11 +95,11 @@ export function StockTransfersTable({ data, onRefresh }: StockTransfersTableProp
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-2 text-xs">
                         <span className="text-muted-foreground w-10">From:</span>
-                        <span className="font-medium">{row.sourceBranch?.name || `Branch #${row.sourceBranchId}`}</span>
+                        <span className="font-medium">{row.sourceBranch?.branchName || `Branch #${row.sourceBranchId}`}</span>
                       </div>
                       <div className="flex items-center gap-2 text-xs">
                         <span className="text-muted-foreground w-10">To:</span>
-                        <span className="font-medium">{row.destinationBranch?.name || `Branch #${row.destinationBranchId}`}</span>
+                        <span className="font-medium">{row.destinationBranch?.branchName || `Branch #${row.destinationBranchId}`}</span>
                       </div>
                     </div>
                   </TableCell>

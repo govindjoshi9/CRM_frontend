@@ -34,8 +34,8 @@ export function StockTransfersModule() {
     const s = search.toLowerCase();
     return (
       row.transferNumber.toLowerCase().includes(s) ||
-      row.sourceBranch?.name.toLowerCase().includes(s) ||
-      row.destinationBranch?.name.toLowerCase().includes(s)
+      (row.sourceBranch?.branchName || "").toLowerCase().includes(s) ||
+      (row.destinationBranch?.branchName || "").toLowerCase().includes(s)
     );
   });
 
