@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getModule, type ModuleDef } from "@/lib/modules";
 import { InventoryModule } from "@/components/modules/inventory/InventoryModule";
+import { StockTransfersModule } from "@/components/modules/stock-transfers/StockTransfersModule";
+import { AssetsModule } from "@/components/modules/assets/AssetsModule";
 import { ItemsModule } from "@/components/modules/items/ItemsModule";
 import { UsersModule } from "@/components/modules/users-module";
 import { useAuthStore } from "@/store/authStore";
@@ -56,6 +58,10 @@ export default function StaffDashboardPage() {
         <StaffDashboardView userRole={user?.role} userEmail={user?.email} />
       ) : activeSlug === "inventory" ? (
         <InventoryModule />
+      ) : activeSlug === "stock-transfers" ? (
+        <StockTransfersModule />
+      ) : activeSlug === "assets" ? (
+        <AssetsModule />
       ) : activeSlug === "items" ? (
         <ItemsModule />
       ) : activeSlug === "users" ? (
