@@ -10,10 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { StockTransferService } from "@/lib/services/stock-transfer.service";
-import { BranchService, BranchRecord } from "@/lib/services/branch.service";
+import { BranchService, BranchItem } from "@/lib/services/branch.service";
 import { ItemService, ItemRecord } from "@/lib/services/item.service";
 import { toast } from "sonner";
 import { Trash2, Plus } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface NewTransferDialogProps {
   open: boolean;
@@ -23,7 +30,7 @@ interface NewTransferDialogProps {
 
 export function NewTransferDialog({ open, onOpenChange, onSuccess }: NewTransferDialogProps) {
   const [loading, setLoading] = useState(false);
-  const [branches, setBranches] = useState<BranchRecord[]>([]);
+  const [branches, setBranches] = useState<BranchItem[]>([]);
   const [items, setItems] = useState<ItemRecord[]>([]);
 
   const [sourceBranchId, setSourceBranchId] = useState("");
@@ -122,31 +129,32 @@ export function NewTransferDialog({ open, onOpenChange, onSuccess }: NewTransfer
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label>Source Branch / Warehouse *</Label>
-              <select
-                required
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                value={sourceBranchId}
-                onChange={(e) => setSourceBranchId(e.target.value)}
-              >
-                <option value="" disabled>Select Source</option>
-                {branches.filter(b => b.isWarehouse).map((b) => (
-                  <option key={b.id} value={b.id}>{b.name}</option>
-                ))}
-              </select>
+              <Select value={sourceBranchId} onValueChange={setSourceBranchId} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Source" />
+                </SelectTrigger>
+                <SelectContent>
+                  {branches.map((b) => (
+                    <SelectItem key={b.id} value={b.id.toString()}>{b.branchName} {b.isWarehouse ? "(Warehouse)" : ""}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {branches.length > 0 && branches.filter(b => b.isWarehouse).length === 0 && (
+                <p className="text-xs text-amber-500">Note: You must configure at least one branch as a Warehouse to transfer stock.</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label>Destination Branch *</Label>
-              <select
-                required
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                value={destinationBranchId}
-                onChange={(e) => setDestinationBranchId(e.target.value)}
-              >
-                <option value="" disabled>Select Destination</option>
-                {branches.map((b) => (
-                  <option key={b.id} value={b.id}>{b.name}</option>
-                ))}
-              </select>
+              <Select value={destinationBranchId} onValueChange={setDestinationBranchId} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Destination" />
+                </SelectTrigger>
+                <SelectContent>
+                  {branches.map((b) => (
+                    <SelectItem key={b.id} value={b.id.toString()}>{b.branchName}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -173,17 +181,16 @@ export function NewTransferDialog({ open, onOpenChange, onSuccess }: NewTransfer
               <div key={index} className="flex items-end gap-2 bg-muted/20 p-2 rounded-lg border border-border/50">
                 <div className="grid gap-2 flex-1">
                   <Label className="text-xs">Select Item</Label>
-                  <select
-                    required
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                    value={row.itemId}
-                    onChange={(e) => updateItemRow(index, "itemId", e.target.value)}
-                  >
-                    <option value="" disabled>Select Item...</option>
-                    {items.map((i) => (
-                      <option key={i.id} value={i.id}>{i.name} {i.sku ? `(${i.sku})` : ""}</option>
-                    ))}
-                  </select>
+                  <Select value={row.itemId} onValueChange={(val) => updateItemRow(index, "itemId", val)} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Item..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {items.map((i) => (
+                        <SelectItem key={i.id} value={i.id.toString()}>{i.name} {i.sku ? `(${i.sku})` : ""}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="grid gap-2 w-[120px]">
                   <Label className="text-xs">Quantity</Label>

@@ -24,11 +24,11 @@ export interface StockTransferRecord {
   updatedAt: string;
   sourceBranch?: {
     id: number;
-    name: string;
+    branchName: string;
   };
   destinationBranch?: {
     id: number;
-    name: string;
+    branchName: string;
   };
   transferItems: StockTransferItemRecord[];
 }
