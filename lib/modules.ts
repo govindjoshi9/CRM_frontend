@@ -838,7 +838,7 @@ export const MODULES: ModuleDef[] = [
     icon: UserCog,
     prefix: "/api/users",
     group: "Administration",
-    status: "ready",
+    status: "preview",
     endpoints: [
       { method: "GET", path: "/", description: "List all users in workspace" },
       { method: "POST", path: "/", description: "Add new user with role", roles: ["admin", "hr"] },
