@@ -26,19 +26,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthStore } from "@/store/authStore";
 import { EmployeeItem } from "@/lib/services/employee.service";
 
-interface UsersTableProps {
+interface EmployeesTableProps {
   employees: EmployeeItem[];
   isLoading: boolean;
   onToggleStatus: (employee: EmployeeItem) => void;
   onAddClick: () => void;
 }
 
-export function UsersTable({
+export function EmployeesTable({
   employees,
   isLoading,
   onToggleStatus,
   onAddClick,
-}: UsersTableProps) {
+}: EmployeesTableProps) {
   const { user: currentUser } = useAuthStore();
 
   if (isLoading) {

@@ -14,17 +14,16 @@ export interface EmployeeItem {
 export interface Department {
   id: number;
   name: string;
+  description?: string;
 }
 
 export interface Designation {
   id: number;
   name: string;
+  description?: string;
 }
 
 export const EmployeeService = {
-  /**
-   * Fetch all employees
-   */
   async getEmployees(): Promise<EmployeeItem[]> {
     const res = await apiClient.get("/employees");
     if (res.data?.rows) {
@@ -35,9 +34,6 @@ export const EmployeeService = {
     return [];
   },
 
-  /**
-   * Fetch all departments
-   */
   async getDepartments(): Promise<Department[]> {
     try {
       const res = await apiClient.get("/departments");
@@ -47,9 +43,6 @@ export const EmployeeService = {
     }
   },
 
-  /**
-   * Fetch all designations
-   */
   async getDesignations(): Promise<Designation[]> {
     try {
       const res = await apiClient.get("/designations");
@@ -59,9 +52,16 @@ export const EmployeeService = {
     }
   },
 
-  /**
-   * Create a new employee
-   */
+  async createDepartment(payload: { name: string; description?: string; businessId?: number }): Promise<Department> {
+    const res = await apiClient.post("/departments", payload);
+    return res.data;
+  },
+
+  async createDesignation(payload: { name: string; description?: string; businessId?: number }): Promise<Designation> {
+    const res = await apiClient.post("/designations", payload);
+    return res.data;
+  },
+
   async createEmployee(payload: Record<string, unknown>): Promise<{ message?: string; login?: { tempPassword?: string; note?: string } }> {
     const formattedPayload = {
       ...payload,
@@ -73,18 +73,13 @@ export const EmployeeService = {
     return res.data;
   },
 
-  /**
-   * Update employee status
-   */
   async toggleStatus(employeeId: number, currentStatus: string): Promise<void> {
     const nextStatus = currentStatus === "active" ? "inactive" : "active";
     await apiClient.put(`/employees/${employeeId}`, { status: nextStatus });
   },
 
-  /**
-   * Soft delete employee
-   */
   async deleteEmployee(employeeId: number): Promise<void> {
     await apiClient.delete(`/employees/${employeeId}`);
   }
 };
+

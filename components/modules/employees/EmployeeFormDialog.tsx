@@ -22,7 +22,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { EmployeeService, Department, Designation } from "@/lib/services/employee.service";
 
-interface UserFormDialogProps {
+interface EmployeeFormDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   departments: Department[];
@@ -30,13 +30,13 @@ interface UserFormDialogProps {
   onSuccess: () => void;
 }
 
-export function UserFormDialog({
+export function EmployeeFormDialog({
   isOpen,
   onOpenChange,
   departments,
   designations,
   onSuccess,
-}: UserFormDialogProps) {
+}: EmployeeFormDialogProps) {
   const [addForm, setAddForm] = useState({
     name: "",
     email: "",
