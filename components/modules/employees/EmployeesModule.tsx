@@ -3,12 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { UsersHeader } from "./UsersHeader";
-import { UsersTable } from "./UsersTable";
-import { UserFormDialog } from "./UserFormDialog";
+import { EmployeesHeader } from "./EmployeesHeader";
+import { EmployeesTable } from "./EmployeesTable";
+import { EmployeeFormDialog } from "./EmployeeFormDialog";
 import { EmployeeService, EmployeeItem, Department, Designation } from "@/lib/services/employee.service";
 
-export function UsersModule() {
+export function EmployeesModule() {
   const [employees, setEmployees] = useState<EmployeeItem[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [designations, setDesignations] = useState<Designation[]>([]);
@@ -75,7 +75,7 @@ export function UsersModule() {
 
   return (
     <div className="flex flex-col gap-6">
-      <UsersHeader
+      <EmployeesHeader
         employees={employees}
         isLoading={isLoading}
         search={search}
@@ -93,14 +93,14 @@ export function UsersModule() {
         </Alert>
       )}
 
-      <UsersTable
+      <EmployeesTable
         employees={filteredEmployees}
         isLoading={isLoading}
         onToggleStatus={handleToggleStatus}
         onAddClick={() => setIsAddOpen(true)}
       />
 
-      <UserFormDialog
+      <EmployeeFormDialog
         isOpen={isAddOpen}
         onOpenChange={setIsAddOpen}
         departments={departments}

@@ -23,7 +23,7 @@ import { InventoryModule } from "@/components/modules/inventory/InventoryModule"
 import { StockTransfersModule } from "@/components/modules/stock-transfers/StockTransfersModule";
 import { AssetsModule } from "@/components/modules/assets/AssetsModule";
 import { ItemsModule } from "@/components/modules/items/ItemsModule";
-import { UsersModule } from "@/components/modules/users-module";
+import { EmployeesModule } from "@/components/modules/employees-module";
 import { useAuthStore } from "@/store/authStore";
 
 const TASKS = [
@@ -64,8 +64,8 @@ export default function StaffDashboardPage() {
         <AssetsModule />
       ) : activeSlug === "items" ? (
         <ItemsModule />
-      ) : activeSlug === "users" ? (
-        <UsersModule />
+      ) : activeSlug === "employees" ? (
+        <EmployeesModule />
       ) : (
         <ModulePreviewView module={activeModule} />
       )}

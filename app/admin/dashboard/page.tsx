@@ -34,7 +34,7 @@ import { InventoryModule } from "@/components/modules/inventory/InventoryModule"
 import { StockTransfersModule } from "@/components/modules/stock-transfers/StockTransfersModule";
 import { AssetsModule } from "@/components/modules/assets/AssetsModule";
 import { ItemsModule } from "@/components/modules/items/ItemsModule";
-import { UsersModule } from "@/components/modules/users-module";
+import { EmployeesModule } from "@/components/modules/employees-module";
 import { BusinessProfileModule } from "@/components/modules/business-profile/BusinessProfileModule";
 import { BranchesModule } from "@/components/modules/branches/BranchesModule";
 import { useAuthStore } from "@/store/authStore";
@@ -88,8 +88,8 @@ export default function AdminDashboardPage() {
         <AssetsModule />
       ) : activeSlug === "items" ? (
         <ItemsModule />
-      ) : activeSlug === "users" ? (
-        <UsersModule />
+      ) : activeSlug === "employees" ? (
+        <EmployeesModule />
       ) : activeSlug === "business-profile" ? (
         <BusinessProfileModule />
       ) : activeSlug === "branches" ? (

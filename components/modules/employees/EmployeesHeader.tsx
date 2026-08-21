@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EmployeeItem } from "@/lib/services/employee.service";
 
-interface UsersHeaderProps {
+interface EmployeesHeaderProps {
   employees: EmployeeItem[];
   isLoading: boolean;
   search: string;
@@ -23,7 +23,7 @@ interface UsersHeaderProps {
   onAddClick: () => void;
 }
 
-export function UsersHeader({
+export function EmployeesHeader({
   employees,
   isLoading,
   search,
