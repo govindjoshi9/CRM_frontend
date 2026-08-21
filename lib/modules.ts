@@ -586,7 +586,7 @@ export const MODULES: ModuleDef[] = [
     icon: UserCircle,
     prefix: "/api/employees",
     group: "HR & Payroll",
-    status: "preview",
+    status: "ready",
     endpoints: [
       { method: "GET", path: "/", description: "List employees" },
       { method: "POST", path: "/", description: "Create employee" },
@@ -600,7 +600,7 @@ export const MODULES: ModuleDef[] = [
     icon: Building2,
     prefix: "/api/departments",
     group: "HR & Payroll",
-    status: "preview",
+    status: "ready",
     endpoints: [
       { method: "GET", path: "/", description: "List departments" },
       { method: "POST", path: "/", description: "Create department" },
@@ -613,7 +613,7 @@ export const MODULES: ModuleDef[] = [
     icon: UserCog,
     prefix: "/api/designations",
     group: "HR & Payroll",
-    status: "preview",
+    status: "ready",
     endpoints: [
       { method: "GET", path: "/", description: "List designations" },
       { method: "POST", path: "/", description: "Create designation" },
